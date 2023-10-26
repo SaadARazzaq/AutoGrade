@@ -8,6 +8,7 @@ def display_images_scrollable(images):
     root = tk.Tk()
     root.title("Scrollable Image Viewer")
 
+    root.geometry("500x525") 
     # Create a frame to hold the canvas and scrollbars
     frame = tk.Frame(root)
     frame.pack(fill=tk.BOTH, expand=True)
@@ -53,3 +54,48 @@ def display_images_scrollable(images):
     canvas.config(scrollregion=canvas.bbox("all"))
 
     root.mainloop()
+
+def rectContours(countours):
+    # Filter the area out as we do not want any small rectangles, 
+    # Check for significant rectangles. THen we want to filter out 
+    # if rectangle has 4 corner points. So we will loop through all 
+    # the area in order to filter it out.
+
+    rectCont = []  #  List containing all the corner points of each rectangle
+    for i in countours:
+        area = cv2.contourArea(i)
+        # print("Area: ", area)
+        if area > 5000:  #  Neglect the very small values as they represent the small rectangles
+            perimeter = cv2.arcLength(i, True)
+            approx = cv2.approxPolyDP(i, 0.02*perimeter, True)  #  Approximate how many corner points the polygon has
+            print("Corner Points: 👇")
+            print()
+            print(approx)
+            print("Length of Corner Points: ",len(approx))
+            print()
+            if len(approx) == 4:  # Select the rectangle
+                rectCont.append(i)  #  Append the contour itself in the list each time we getting the rectangle
+    
+    #  Now arrange the rectangle based on their area
+    rectCont= sorted(rectCont,key=cv2.contourArea,reverse=True)
+
+    return rectCont
+
+def getCornerPoints(cont):
+    perimeter = cv2.arcLength(cont, True)
+    approx = cv2.approxPolyDP(cont, 0.02*perimeter, True)  #  Approximate how many corner points the polygon has
+    return approx
+
+def reorder(myPoints):
+    myPoints = myPoints.reshape((4,2))
+    myPointsNew = np.zeros((4,1,2), np.int32)
+    add = myPoints.sum(1)  #  1 is the axis
+    #print(myPoints)
+    #print(add)
+    myPointsNew[0]= myPoints[np.argmin(add)]  #  Our first point in the list should be minimum - [0, 0]
+    myPointsNew[3]= myPoints[np.argmax(add)]  #  Our last point in the list should be maximum - [w, h]
+    diff = np.diff(myPoints,axis=1)
+    myPointsNew[1] = myPoints[np.argmin(diff)]  # [w , 0]
+    myPointsNew[2] = myPoints[np.argmax(diff)]  # [0, h]
+    #print(diff)
+    return myPointsNew
