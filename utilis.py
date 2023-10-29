@@ -99,3 +99,11 @@ def reorder(myPoints):
     myPointsNew[2] = myPoints[np.argmax(diff)]  # [0, h]
     #print(diff)
     return myPointsNew
+
+#  To get each of individual options(bubbles) and see how many pixel values are non zero to find out which one of the options in each question marked and which one not marked
+#  So to do this, we need to split our image like each of 4 images/columns into 39 different boxes each 13rows X 3columns
+
+def splitOptions(img):
+    rows = np.vsplit(img, 1)  #  3 is how many splits in the image
+    cv2.imshow('split', rows[0])
+    cv2.waitKey()
