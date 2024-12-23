@@ -1,8 +1,13 @@
 # AutoGrade  
 **Automated MCQ Grading with Computer Vision and Optical Mark Recognition (OMR) Technology** ✅  
 
+<img width="462" alt="Screenshot 2024-12-23 at 09 07 22" src="https://github.com/user-attachments/assets/a8ab266e-e6e8-4e93-91b2-af9517f4d3fa" />
+
+<img width="462" alt="Screenshot 2024-12-23 at 09 07 34" src="https://github.com/user-attachments/assets/6709949b-8e2b-422f-9f53-cc3d1ce19e4a" />
+
 ### Overview  
 AutoGrade is a smart solution to grade multiple-choice questions (MCQs) automatically. It uses computer vision and Optical Mark Recognition (OMR) to make grading faster and more accurate, saving time and reducing errors.
+
 
 ### Key Features  
 - **Smart Image Analysis**: Detects and checks marked answers with image processing.  
